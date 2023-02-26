@@ -29,6 +29,8 @@ Based on the data, we know that the average monthly checkouts are 8.9 for Fantas
 ```{r echo = FALSE}
 # avg total checkouts for each genre
 
+
+
 pop_genres_df <- spl_df %>% 
   filter(Subjects %in% c("Young Adult Fiction", "Romance", "Nonfiction", "Fantasy"))
 
@@ -39,6 +41,9 @@ avg_genre <- pop_genres_df %>%
   
 
 # Date with the most checkouts of The Fault in Our Stars
+fios_df<- spl_df %>% 
+  filter(str_detect(Title, "The Fault in Our Stars"))
+
 fios_df <- fios_df %>% 
   mutate(date = paste0(CheckoutYear, "-", CheckoutMonth, "-01"))
 fios_df$date <- as.Date(fios_df$date, format = "%Y-%m-%d")
@@ -120,7 +125,7 @@ When we say "clear" or "human readable" titles and labels, that means that you s
 
 Here's an example of how to run an R script inside an RMarkdown file:
 
-``````{r, echo = FALSE, warning = FALSE, code = readLines("Chart1.R")}
+```{r, echo = FALSE, warning = FALSE, code = readLines("Chart1.R")}
 ```
 ### Purpose
 The purpose of this graph was to look at the trends and popularity of different genres of books. Specifically, I was interested in discovering which genres became most popular after Tiktok book recommendations became prevalent. Booktok and other book-focused social media trends started in 2020. 
@@ -143,7 +148,7 @@ One of the most significant findings that I discovered was how much the number o
 
 ### Your Choice
 
-``````{r, echo = FALSE, warning = FALSe, code = readLines("Chart3.R")}
+```{r, echo = FALSE, warning = FALSe, code = readLines("Chart3.R")}
 ```
 
 ### Purpose

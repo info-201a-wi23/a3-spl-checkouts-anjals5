@@ -28,7 +28,7 @@ popular_plot <- ggplot(data = pop_checkouts_per_year) +
   Books Over Time", 
        x = "Year" , y = "Total Checkouts") +
   scale_x_continuous(limits = c(2015, 2022)) 
-popular_plot
+
 
   
   
