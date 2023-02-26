@@ -35,8 +35,7 @@ total_checkouts <- fios_total %>%
 
 ggplot(data = total_checkouts) +
   geom_line(aes( x = date, y = total, color = movie)) +
-  labs(title = "Number of 'The Fault in Our Stars'
-  Checkouts Before and After
+  labs(title = "Number of 'The Fault in Our Stars' Checkouts Before and After
   Movie Release", y = "Total Number of Checkouts")
 
 
