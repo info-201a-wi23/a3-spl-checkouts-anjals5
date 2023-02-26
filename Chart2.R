@@ -10,8 +10,8 @@ library("ggplot2")
 
 
 # Filter for specific book titles
-booktok_popularity <- spl_df %>% 
-  filter(Title %in% c("They Both Die at the End", "The Song of Achilles", "We Were Liars", "my year of rest and relaxation"))
+fios_popularity <- spl_df %>% 
+  filter(Title %in% c("They Both Die at the End", "The Song of Achilles", "We Were Liars"))
 
 #Sum of checkouts for popular books
 pop_checkouts_per_year <- booktok_popularity %>% 
@@ -23,9 +23,9 @@ pop_checkouts_per_year <- booktok_popularity %>%
 popular_plot <- ggplot(data = pop_checkouts_per_year) +
   geom_line(aes(x = CheckoutYear, y = total_check, color = Title)) +
   labs(title = "Popularity of Booktok
-       Books Over Time", 
+  Books Over Time", 
        x = "Year" , y = "Total Checkouts") +
-  scale_x_continuous(limits = c(2015, 2022))
+  scale_x_continuous(limits = c(2015, 2022)) 
 popular_plot
 
   
