@@ -20,10 +20,9 @@ checkouts_per_year <- pop_genres_df %>%
 
 
 #create line plot
-genre_plot <- ggplot(data = checkouts_per_year) +
+ ggplot(data = checkouts_per_year) +
   geom_line(aes(x = CheckoutYear, y = total_checkouts, color = Subjects)) +
   labs(title = "Popular Genre Checkouts Over the Years", 
        x = "Year" , y = "Total Checkouts") +
   scale_x_continuous(limits = c(2015, 2023)) 
 
-genre_plot
