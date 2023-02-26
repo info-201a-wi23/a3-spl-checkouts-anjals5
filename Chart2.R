@@ -10,11 +10,13 @@ library("ggplot2")
 
 
 # Filter for specific book titles
-fios_popularity <- spl_df %>% 
+bt_popularity <- spl_df %>% 
   filter(Title %in% c("They Both Die at the End", "The Song of Achilles", "We Were Liars"))
 
+
+
 #Sum of checkouts for popular books
-pop_checkouts_per_year <- booktok_popularity %>% 
+pop_checkouts_per_year <- bt_popularity %>% 
   group_by(CheckoutYear, Title) %>% 
   summarize(total_check = sum(Checkouts, na.rm = TRUE))  
 

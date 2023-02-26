@@ -13,6 +13,7 @@ library("ggplot2")
 fios_df<- spl_df %>% 
   filter(str_detect(Title, "The Fault in Our Stars"))
 
+
 #Make new column with checkout month, checkout year, and default day value. Convert column to date value
 fios_df <- fios_df %>% 
   mutate(date = paste0(CheckoutYear, "-", CheckoutMonth, "-01"))

@@ -2,7 +2,8 @@
 #Load Data from SPL
 spl_df <- read.csv("~/Downloads/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors = FALSE)
 
-View(spl_df)
+
+
 # Load libraries
 library("dplyr")
 library("stringr")
@@ -16,6 +17,7 @@ pop_genres_df <- spl_df %>%
 checkouts_per_year <- pop_genres_df %>% 
   group_by(CheckoutYear, Subjects) %>% 
   summarize(total_checkouts = sum(Checkouts, na.rm = TRUE)) 
+
 
 #create line plot
 genre_plot <- ggplot(data = checkouts_per_year) +
