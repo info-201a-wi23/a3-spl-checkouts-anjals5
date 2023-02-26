@@ -2,14 +2,86 @@
 title: "A3: SPL Library Checkouts"
 output: html_document
 ---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library("dplyr")
+library("stringr")
+library("knitr")
+library("ggplot2")
+library("tidyverse")
+
+spl_df <- read.csv("~/Downloads/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors = FALSE)
+
+```
+
+## Impact of Media on Book Checkouts
+### Anjali Schatzer 
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+For the purpose of this report, I wanted to analyze the impacts of media of media on book popularity through analyzing data from the Seattle Public Library. With the increased popularity of book to movie adaptions, and book social media (such as booktok), I was curious to learn about how they influenced XX. I chose to analyze the surge in checkouts of popular genres since the rise of these social media platforms in 2020/2021. I used the variable pop_genres_df to analyze these trends. I also looked into the backlisted books that became best sellers years after their original release because of growing popularity on TikTok. I used the trending books, “They Both Die at the End” by Adam Silvera, “The Song of Achilles” by Madeline Miller,  and “We Were Liars” by E. Lockhart to analyze these trends. I used the variable pop_checkouts_per_year for this data. Finally, I used the popular book to movie adaption, “The Fault in Our Stars”, to see if book checkouts increased with a movie release. I used fios_popularity to look into this data. 
 
 ### Summary Information
 
 Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+
+```{r echo = FALSE}
+
+
+# avg total checkouts for each genre
+
+avg_genre <- pop_genres_df %>% 
+  group_by(Subjects) %>% 
+  summarize(avg_subjects = mean(Checkouts, na.rm = TRUE))
+
+
+  
+
+# Date with the most checkouts of The Fault in Our Stars
+most_checkouts_fios<- fios_df %>% 
+  filter(Checkouts == max(Checkouts, na.rm = TRUE)) %>% 
+  pull(date)
+
+most_checkouts_fios
+
+
+# Create var for only SOA
+soa <- bt_popularity %>% 
+  filter(Title == "The Song of Achilles")
+#Year with most checkouts of Song of Achilles
+most_soa <- soa %>% 
+  filter(Checkouts== max(Checkouts, na.rm = TRUE)) %>% 
+  pull(CheckoutYear)
+
+most_soa
+
+#Year with least checkouts of SOA
+least_soa <- soa %>% 
+  filter(Checkouts == min(Checkouts, na.rm = TRUE)) %>% 
+  pull(CheckoutYear)
+  
+least_soa
+
+
+
+#avg number of checkouts of fios pre 2014
+
+avg_pre <- fios_df %>% 
+  filter(date < "2014-06-01") %>% 
+  summarize(pre_avg = mean(Checkouts, na.rm = TRUE))
+
+total_pre
+
+
+# avg number of checkouts fios between 2014 and 2016
+
+avg_post <- fios_df %>% 
+  filter(date > "2014-06-01" & date < "2017-01-01") %>% 
+  summarize(post_avg = mean(Checkouts, na.rm = TRUE))
+
+avg_post
+
+
+```
 
 These will likely be calculated using your DPLYR skills, answering questions such as:
 
