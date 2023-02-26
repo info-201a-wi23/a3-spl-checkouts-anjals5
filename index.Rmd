@@ -18,25 +18,31 @@ spl_df <- read.csv("~/Downloads/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors
 
 ### Introduction
 
-For the purpose of this report, I wanted to analyze the impacts of media of media on book popularity through analyzing data from the Seattle Public Library. With the increased popularity of book to movie adaptions, and book social media (such as booktok), I was curious to learn about how they influenced XX. I chose to analyze the surge in checkouts of popular genres since the rise of these social media platforms in 2020/2021. I used the variable pop_genres_df to analyze these trends. I also looked into the backlisted books that became best sellers years after their original release because of growing popularity on TikTok. I used the trending books, “They Both Die at the End” by Adam Silvera, “The Song of Achilles” by Madeline Miller,  and “We Were Liars” by E. Lockhart to analyze these trends. I used the variable pop_checkouts_per_year for this data. Finally, I used the popular book to movie adaption, “The Fault in Our Stars”, to see if book checkouts increased with a movie release. I used fios_popularity to look into this data. 
+For the purpose of this report, I wanted to analyze the impacts of media on book popularity by analyzing data from the Seattle Public Library. With the increased popularity of book-to-movie adaptions and book social media (such as book-tok and bookstagram), I was curious to learn about how they influenced XX. I chose to analyze the surge in checkouts of popular genres since the rise of these social media platforms in 2020/2021. I used the variable pop_genres_df to explore these trends. I also looked into the backlisted books that became best sellers years after their original release because of the growing popularity on Tiktok. I used the trending books “They Both Die at the End” by Adam Silvera, “The Song of Achilles” by Madeline Miller,  and “We Were Liars” by E. Lockhart to analyze these trends. I used the variable pop_checkouts_per_year for this data. Finally, I used the popular book-to-movie adaption, “The Fault in Our Stars,” to see if book checkouts increased with a movie release. I used fios_popularity to look into this data. 
+
+ 
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+Based on the data, we know that the average monthly checkouts are 8.9 for Fantasy, 10.8 for Nonfiction, 13.7 for Romance, and 13.1 for Young Adult Fiction. On average, the category with the most checkouts per month is Romance. However, this reflects the average from 2013-2023 and does not include trends in recent years. We also know that the date with the most checkouts of “The Fault in Our Stars” was October of 2014. This was two years after the book was published. This novel's average number of checkouts before the movie release was 75.75 per month. The average number of monthly checkouts after the story was released was 77.1. The year with the most checkouts of “The Song of Achilles” was 2022. The years with the least checkouts of this book were 2014 and 2015, each with a recorded checkout of 5.  
 
 ```{r echo = FALSE}
-
-
 # avg total checkouts for each genre
+
+pop_genres_df <- spl_df %>% 
+  filter(Subjects %in% c("Young Adult Fiction", "Romance", "Nonfiction", "Fantasy"))
 
 avg_genre <- pop_genres_df %>% 
   group_by(Subjects) %>% 
   summarize(avg_subjects = mean(Checkouts, na.rm = TRUE))
 
-
   
 
 # Date with the most checkouts of The Fault in Our Stars
+fios_df <- fios_df %>% 
+  mutate(date = paste0(CheckoutYear, "-", CheckoutMonth, "-01"))
+fios_df$date <- as.Date(fios_df$date, format = "%Y-%m-%d")
+
 most_checkouts_fios<- fios_df %>% 
   filter(Checkouts == max(Checkouts, na.rm = TRUE)) %>% 
   pull(date)
@@ -45,22 +51,30 @@ most_checkouts_fios
 
 
 # Create var for only SOA
+bt_popularity <- spl_df %>% 
+  filter(Title %in% c("They Both Die at the End", "The Song of Achilles", "We Were Liars"))
+
 soa <- bt_popularity %>% 
   filter(Title == "The Song of Achilles")
+
+#Total SOA checkouts per year
+
+sum_soa <- soa %>% 
+  group_by(CheckoutYear) %>% 
+  summarize(total = sum(Checkouts))
+
 #Year with most checkouts of Song of Achilles
-most_soa <- soa %>% 
-  filter(Checkouts== max(Checkouts, na.rm = TRUE)) %>% 
+most_soa <- sum_soa %>% 
+  filter(total== max(total, na.rm = TRUE)) %>% 
   pull(CheckoutYear)
 
 most_soa
 
 #Year with least checkouts of SOA
-least_soa <- soa %>% 
-  filter(Checkouts == min(Checkouts, na.rm = TRUE)) %>% 
+least_soa <- sum_soa %>% 
+  filter(total == min(total, na.rm = TRUE)) %>% 
   pull(CheckoutYear)
   
-least_soa
-
 
 
 #avg number of checkouts of fios pre 2014
@@ -68,8 +82,6 @@ least_soa
 avg_pre <- fios_df %>% 
   filter(date < "2014-06-01") %>% 
   summarize(pre_avg = mean(Checkouts, na.rm = TRUE))
-
-total_pre
 
 
 # avg number of checkouts fios between 2014 and 2016
@@ -83,23 +95,12 @@ avg_post
 
 ```
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
-
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
-
-Feel free to calculate and report values that you find relevant.
 
 ### The Dataset
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
+	This data was collected bt the Seattle Public Library system. It includes monthly counts of the Seattle Public Library checkouts by title for all physical and digital items. The data only goes back to 2013 and only collects data for items checked out at least five times a month. The digital objects are collected from the media vendors: hoopla, Overdrive, Freegal, and RBDDogtal to provide data about the usage. The historical physical item checkouts between April 2005 and September 2016 were sourced from the Legrady artwork data archives. Anything collected from October 1, 2016, to present was sourced from Horizon ILS. SPL likely gathers this information because it can help them keep track of the popularity of certain books, authors, and media types. It is essential for them to know this because it can inform how they need to adjust their inventory. For example, they may decide to increase the number of copies of a popular book. 
+	
+	One limitation of this data is that it only includes the initial checkout. It does not include renewals of physical items, which could impact the data. We would not be able to see trends in renewed books, which could limit the scope of our data. Since it only includes items checked out at least five times, we do not have insight into the less popular books. This would impact our genre data because there could be quite a few less popular romance books, for example, that people are checking out. This would skew our data to make the romance genre seem less prevalent than it actually is. Also, because this is limited to library checkouts only, the data cannot accurately encompass the extent of popularity of recent “booktok” novels and book-to-movie adaptions because many people are purchasing their books firsthand. We cannot truly see the number of people who got the “Song of Achilles” book after its popularity on Tiktok because many people purchased it from Amazon or another bookstore. We are only able to view the trends but not the extent of their impact. If a new book is released that gains immense popularity on Tiktok, libraries may not carry it in stock immediately. They may take more time to get brand new books, leading it to not be included in the data. Also, because of the limited stock of books in libraries, popular books may often be unavailable. People who intend on getting a particular book may not be able to for months at a time, leading us not to see the scope of the popularity of specific books. 
 
 
 ### First Trends Over Time Chart
@@ -119,40 +120,34 @@ When we say "clear" or "human readable" titles and labels, that means that you s
 
 Here's an example of how to run an R script inside an RMarkdown file:
 
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+``````{r, echo = FALSE, warning = FALSE, code = readLines("Chart1.R")}
 ```
+### Purpose
+The purpose of this graph was to look at the trends and popularity of different genres of books. Specifically, I was interested in discovering which genres became most popular after Tiktok book recommendations became prevalent. Booktok and other book-focused social media trends started in 2020. 
+
+### Insights
+The graph demonstrates that after 2020, young adult fiction books surged in popularity. The checkouts increased eight times what they had been before 2020. Nonfiction books also grew in popularity but not to the same extent. Some of this increase may have been because of the start of the COVID-19 pandemic because many people had more time to read. Despite my original assumptions, it turns out that fantasy and romance books decreased in popularity. However, fantasy books have continuously decreased since 2018 but experienced a slight incline from 2020 to 2022 before declining again. 
+
 
 ### Second Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+```{r, echo = FALSE, warning= FALSE, code = readLines("Chart2.R")}
 ```
+
+### Purpose
+For this graph, I wanted to analyze the trends in the popularity of Booktok books compared to their original publishing date. I included three books I knew were extremely popular and examined how their social media popularity impacted their checkouts. 
+
+### Insights
+One of the most significant findings that I discovered was how much the number of checkouts increased for “The Song of Achilles.” It surpassed the number of checkouts for the other two books by a large margin. The book was initially published in 2011 but became one of the most sought-after novels starting in 2020, where the line becomes the steepest. We also see that “They Both Die at the End” steadily increased before becoming a steeper increase in 2020 despite being published in 2017. The novel “We Were Liars” was published in 2014, hit a peak in 2016, and then declined until about 2019, when it experienced an increase in popularity once again. This demonstrates the impact of media on book checkouts even though they had been published a while ago. 
 
 ### Your Choice
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
-
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, warning = FALSe, code = readLines("Chart3.R")}
 ```
 
+### Purpose
+The purpose of this graph was to analyze how movie adaptions impacted book popularity. I decided to investigate the adaption of "The Fault in Our Stars" because it became a viral movie. I wondered if this would increase the number of checkouts of the book. I split the graph into checkouts before and after the film's release. 
 
+### Insights
+This graph demonstrates that the novel peaked after the movie was released in June 2014. It steadily increased before the movie's release date after being published in 2012. However, the movie release led to a much steeper increase than the trend it had initially been on. Then it reached an all-time peak before steadily decreasing in popularity. The date with the absolute most checkouts was October of 2014, 4 months after the movie's release and two years after the original publishing of the book.
