@@ -24,10 +24,10 @@ pop_checkouts_per_year <- bt_popularity %>%
 #create line plot
 popular_plot <- ggplot(data = pop_checkouts_per_year) +
   geom_line(aes(x = CheckoutYear, y = total_check, color = Title)) +
-  labs(title = "Popularity of Booktok Books Over Time", 
-       x = "Year" , y = "Total Checkouts") +
-  scale_x_continuous(limits = c(2015, 2022)) 
-
+ scale_x_continuous(limits = c(2015, 2022)) +
+  labs(title = "Popularity of Booktok Books 
+       Over Time", 
+       x = "Year" , y = "Total Checkouts") 
 
 
   
