@@ -21,22 +21,23 @@ fios_df$date <- as.Date(fios_df$date, format = "%Y-%m-%d")
 
 
 
-# Create new column for pre and post movie
-
-fios_total <- fios_df %>% 
-mutate( movie = ifelse(date < "2014-06-01","Pre-Movie", "Post-Movie"))
-
-
 #summarize total checkouts per month 
 total_checkouts <- fios_total %>% 
-  group_by(movie, date) %>% 
+  group_by(date) %>% 
   summarize(total = sum(Checkouts))
+
+film_release <- fios_df %>% 
+  filter(date == "2014-06-01") %>% 
+  pull(date)
+
+
 
 
 ggplot(data = total_checkouts) +
-  geom_line(aes( x = date, y = total, color = movie)) +
-  labs(title = "Number of 'The Fault in Our Stars' Checkouts Before and After
-  Movie Release", y = "Total Number of Checkouts")
+  geom_line(aes( x = date, y = total)) +
+  labs(title = "Number of 'The Fault in Our Stars' Checkouts Seperated by Before and After Film Release", y = "Total Number of Checkouts") +
+geom_vline(xintercept = film_release, color = "blue")
+
 
 
 

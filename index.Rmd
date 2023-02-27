@@ -141,7 +141,7 @@ One of the most significant findings that I discovered was how much the number o
 
 ### Purpose
 
-The purpose of this graph was to analyze how movie adaptions impacted book popularity. I decided to investigate the adaption of "The Fault in Our Stars" because it became a viral movie. I wondered if this would increase the number of checkouts of the book. I split the graph into checkouts before and after the film's release.
+The purpose of this graph was to analyze how movie adaptions impacted book popularity. I decided to investigate the adaption of "The Fault in Our Stars" because it became a viral movie. I wondered if this would increase the number of checkouts of the book. I split the line chart with a vertical line dividing up checkouts before and after the film's release.
 
 ### Insights
 
