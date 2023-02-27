@@ -20,9 +20,8 @@ fios_df <- fios_df %>%
 fios_df$date <- as.Date(fios_df$date, format = "%Y-%m-%d")
 
 
-
 #summarize total checkouts per month 
-total_checkouts <- fios_total %>% 
+total_checkouts <- fios_df%>% 
   group_by(date) %>% 
   summarize(total = sum(Checkouts))
 
@@ -35,7 +34,8 @@ film_release <- fios_df %>%
 
 ggplot(data = total_checkouts) +
   geom_line(aes( x = date, y = total)) +
-  labs(title = "Number of 'The Fault in Our Stars' Checkouts Seperated by Before and After Film Release", y = "Total Number of Checkouts") +
+  labs(title = "Number of 'The Fault in Our Stars' Checkouts Seperated by Before
+       and After Film Release", y = "Total Number of Checkouts") +
 geom_vline(xintercept = film_release, color = "blue")
 
 
