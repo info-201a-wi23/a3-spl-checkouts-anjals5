@@ -1,7 +1,7 @@
 
 #Load Data from SPL
 spl_df <- read.csv("~/Downloads/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors = FALSE)
-
+spl_df$Title <- tolower(spl_df$Title)
 
 # Load libraries
 library("dplyr")
@@ -11,7 +11,7 @@ library("ggplot2")
 
 # Filter for specific book titles
 bt_popularity <- spl_df %>% 
-  filter(Title %in% c("They Both Die at the End", "The Song of Achilles", "We Were Liars"))
+  filter(Title %in% c("they both die at the end", "the song of achilles", "we were liars"))
 
 
 
@@ -24,9 +24,8 @@ pop_checkouts_per_year <- bt_popularity %>%
 #create line plot
 ggplot(data = pop_checkouts_per_year) +
   geom_line(aes(x = CheckoutYear, y = total_check, color = Title)) +
- scale_x_continuous(limits = c(2015, 2022)) +
-  labs(title = "Popularity of Booktok Books Over Time", 
-       x = "Year" , y = "Total Checkouts") 
-
+  scale_x_continuous(limits = c(2015, 2022)) +
+  labs(title = "Popularity of Booktok eBooks Over Time", 
+       x = "Year" , y = "Total eBook Checkouts") 
   
   
