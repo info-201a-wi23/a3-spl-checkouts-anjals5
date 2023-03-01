@@ -61,7 +61,7 @@ The graph demonstrates that after 2020, young adult fiction books surged in popu
 
 ### Purpose
 
-For this graph, I wanted to analyze the trends in the popularity of Booktok books compared to their original publishing date. I included three books I knew were extremely popular and examined how their social media popularity impacted their eBook checkouts. I decided to focus on eBooks because they have increasingly gained more popularity since they are more accessible alternative to physical books. I was curious about how Booktok and other social media would impact the number of eBooks that were checked out. 
+For this graph, I wanted to analyze the trends in the popularity of Booktok books compared to their original publishing date. I included three books I knew were extremely popular and examined how their social media popularity impacted their eBook checkouts. I decided to focus on eBooks because they have increasingly gained more popularity since they are more accessible alternative to physical books. I was curious about how Booktok and other social media would impact the number of eBooks had been checked out. 
 
 ### Insights
 
